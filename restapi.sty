@@ -232,6 +232,18 @@
 	nobreak=true
 }
 
+\newcommand{\routeBreakValue}{true}
+
+
+\newcommand{\noBreakRoute}
+{
+	\renewcommand{\routeBreakValue}{true}
+}
+\newcommand{\breakRoute}
+{
+	\renewcommand{\routeBreakValue}{false}
+}
+
 \newcommand{\methodColor}{getBlue}
 \newcommand{\methodLightColor}{getLightBlue}
 \newcommand{\methodBorderColor}{getBlueBorder}
@@ -325,7 +337,7 @@
 	
 	%\begin{figure}[htb!]
 		
-		\begin{mdframed}[style=mystyle]
+		\begin{mdframed}[style=mystyle,nobreak=\routeBreakValue]
 		
 		
 		\begin{tabularx}{\textwidth}{p{1.6cm} X}
