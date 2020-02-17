@@ -26,42 +26,63 @@
 
 
 
-\setlength{\parindent}{0em} 
+%\setlength{\parindent}{0em} 
 
 \definecolor{getBlue}{HTML}{1391FF}
 \definecolor{getBlueBorder}{HTML}{61affe}
 \definecolor{getLightBlue}{HTML}{ECF6FF}
 
+\newcommand{\getGetColor}{getBlue}
+\newcommand{\getGetBorderColor}{getBlueBorder}
+\newcommand{\getGetLightColor}{getLightBlue}
+
+
+
 \definecolor{postGreen}{HTML}{009D77}
 \definecolor{postGreenBorder}{HTML}{49CC97}
 \definecolor{postLightGreen}{HTML}{EBF7F4}
+
+\newcommand{\getPostColor}{postGreen}
+\newcommand{\getPostBorderColor}{postGreenBorder}
+\newcommand{\getPostLightColor}{postLightGreen}
+
+
 
 \definecolor{putOrange}{HTML}{E97500}
 \definecolor{putOrangeBorder}{HTML}{fca130}
 \definecolor{putLightOrange}{HTML}{FEF4EB}
 
+\newcommand{\getPutColor}{putOrange}
+\newcommand{\getPutBorderColor}{putOrangeBorder}
+\newcommand{\getPutLightColor}{putLightOrange}
+
+
+
 \definecolor{deleteRed}{HTML}{CF3030}
 \definecolor{deleteRedBorder}{HTML}{f93e3e}
 \definecolor{deleteLightRed}{HTML}{FBEEEE}
+
+\newcommand{\getDeleteColor}{deleteRed}
+\newcommand{\getDeleteBorderColor}{deleteRedBorder}
+\newcommand{\getDeleteLightColor}{deleteLightRed}
+
 
 
 
 \colorlet{punct}{black}
 \definecolor{background}{HTML}{EEEEEE}
-%\definecolor{delim}{RGB}{20,105,176}
-%\colorlet{numb}{delim!60!black}
 
 
-\colorlet{delimGet}{getBlue}
+\colorlet{delimGet}{\getGetColor}
 \colorlet{numbGet}{delimGet}
 
-\colorlet{delimPost}{postGreen}
+\colorlet{delimPost}{\getPostColor}
 \colorlet{numbPost}{delimPost}
 
-\colorlet{delimPut}{putOrange}
+\colorlet{delimPut}{\getPutColor}
 \colorlet{numbPut}{delimPut}
 
-\colorlet{delimDelete}{deleteRed}
+\colorlet{delimDelete}{\getDeleteColor}
 \colorlet{numbDelete}{delimDelete}
 
 
@@ -218,9 +239,7 @@
 \mdfdefinestyle{mystyle}{
 	linecolor=\methodBorderColor,
 	backgroundcolor=\methodLightColor,
-%	outerlinewidth=0pt,
 	skipabove=0pt,
-%	roundcorner=10pt,
 	linewidth=1.5pt,
 	skipbelow=0pt,
 	innertopmargin=0pt,
@@ -277,11 +296,14 @@
 	
 	\ifthenelse{\equal{\method}{get}}
 	{
-		\renewcommand{\methodColor}{getBlue}
-		\renewcommand{\methodLightColor}{getLightBlue}
-		\renewcommand{\methodBorderColor}{getBlueBorder}
+		\renewcommand{\methodColor}{\getGetColor}
+		\renewcommand{\methodLightColor}{\getGetLightColor}
+		\renewcommand{\methodBorderColor}{\getGetBorderColor}
 		\renewcommand{\methodJson}
 		{
+			\colorlet{delimGet}{\methodColor}
+			\colorlet{numbGet}{delimGet}
+			
 			\lstset{language=jsonGet,rulecolor=\color{\methodColor}}
 		}
 	}
@@ -289,11 +311,14 @@
 	
 	\ifthenelse{\equal{\method}{post}}
 	{
-		\renewcommand{\methodColor}{postGreen}
-		\renewcommand{\methodLightColor}{postLightGreen}
-		\renewcommand{\methodBorderColor}{postGreenBorder}
+		\renewcommand{\methodColor}{\getPostColor}
+		\renewcommand{\methodLightColor}{\getPostLightColor}
+		\renewcommand{\methodBorderColor}{\getPostBorderColor}
 		\renewcommand{\methodJson}
 		{
+			\colorlet{delimPost}{\methodColor}
+			\colorlet{numbPost}{delimPost}
+			
 			\lstset{language=jsonPost,rulecolor=\color{\methodColor}}
 		}
 	}
@@ -301,22 +326,28 @@
 	
 	\ifthenelse{\equal{\method}{put}}
 	{
-		\renewcommand{\methodColor}{putOrange}
-		\renewcommand{\methodLightColor}{putLightOrange}
-		\renewcommand{\methodBorderColor}{putOrangeBorder}
+		\renewcommand{\methodColor}{\getPutColor}
+		\renewcommand{\methodLightColor}{\getPutLightColor}
+		\renewcommand{\methodBorderColor}{\getPutBorderColor}
 		\renewcommand{\methodJson}
 		{
+			\colorlet{delimPut}{\methodColor}
+			\colorlet{numbPut}{delimPut}
+			
 			\lstset{language=jsonPut,rulecolor=\color{\methodColor}}
 		}
 	}
 	{} 
 	\ifthenelse{\equal{\method}{delete}}
 	{
-		\renewcommand{\methodColor}{deleteRed}
-		\renewcommand{\methodLightColor}{deleteLightRed}
-		\renewcommand{\methodBorderColor}{deleteRedBorder}
+		\renewcommand{\methodColor}{\getDeleteColor}
+		\renewcommand{\methodLightColor}{\getDeleteLightColor}
+		\renewcommand{\methodBorderColor}{\getDeleteBorderColor}
 		\renewcommand{\methodJson}
 		{
+			\colorlet{delimDelete}{\methodColor}
+			\colorlet{numbDelete}{delimDelete}
+			
 			\lstset{language=jsonDelete,rulecolor=\color{\methodColor}}
 		}
 	}
@@ -335,40 +366,36 @@
 		
 	}
 	
-	%\begin{figure}[htb!]
-		
+	
+	\begingroup
+		\setlength{\parindent}{0em}
 		\begin{mdframed}[style=mystyle,nobreak=\routeBreakValue]
-		
-		
-		\begin{tabularx}{\textwidth}{p{1.6cm} X}
-			\rowcolor{\methodLightColor}
-			
-			\cellcolor{\methodColor}
-			\centering 
-			\textcolor{white}{\textbf{\textsc{\method}}} 
-			& \textbf{\urlPath} \\
-			
-			\printDescription
-			
-			\rowcolor{\methodLightColor} & \\
-		\end{tabularx}
-		
+			\begin{tabularx}{\textwidth}{p{1.6cm} X}
+				\rowcolor{\methodLightColor}
+				
+				\cellcolor{\methodColor}
+				\centering 
+				\textcolor{white}{\textbf{\textsc{\method}}} 
+				& \textbf{\urlPath} \\
+				
+				\printDescription
+				
+				\rowcolor{\methodLightColor} & \\
+			\end{tabularx}
 }
 {
 		\end{mdframed}
-	%\end{figure}
+	\endgroup
 }
 
 \newenvironment{routeRequest}[1]
 {
-	
 	\arrayrulecolor{\methodColor}
 	
 	\begin{tabularx}{\textwidth}{X l}
 		\rowcolor{\methodLightColor!20} 
 		\textbf{Body} & #1 \\ \hline
 	\end{tabularx}
-
 }
 {
 	\medskip
@@ -401,6 +428,8 @@
 	%\vspace{-0.61em}
 	
 	\arrayrulecolor{\methodColor}
+	
+	
 	
 	\begin{tabularx}{\textwidth}{X}
 		\rowcolor{\methodLightColor!20}
