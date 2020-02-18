@@ -303,7 +303,6 @@
 		{
 			\colorlet{delimGet}{\methodColor}
 			\colorlet{numbGet}{delimGet}
-			
 			\lstset{language=jsonGet,rulecolor=\color{\methodColor}}
 		}
 	}
@@ -318,7 +317,6 @@
 		{
 			\colorlet{delimPost}{\methodColor}
 			\colorlet{numbPost}{delimPost}
-			
 			\lstset{language=jsonPost,rulecolor=\color{\methodColor}}
 		}
 	}
@@ -333,7 +331,6 @@
 		{
 			\colorlet{delimPut}{\methodColor}
 			\colorlet{numbPut}{delimPut}
-			
 			\lstset{language=jsonPut,rulecolor=\color{\methodColor}}
 		}
 	}
@@ -347,7 +344,6 @@
 		{
 			\colorlet{delimDelete}{\methodColor}
 			\colorlet{numbDelete}{delimDelete}
-			
 			\lstset{language=jsonDelete,rulecolor=\color{\methodColor}}
 		}
 	}
@@ -396,9 +392,11 @@
 		\rowcolor{\methodLightColor!20} 
 		\textbf{Body} & #1 \\ \hline
 	\end{tabularx}
+
+	\vspace{1ex}
 }
 {
-	\medskip
+	\bigskip
 }
 
 
@@ -429,15 +427,12 @@
 	
 	\arrayrulecolor{\methodColor}
 	
-	
-	
 	\begin{tabularx}{\textwidth}{X}
 		\rowcolor{\methodLightColor!20}
 		\textbf{Parameter} \\ \hline
 	\end{tabularx}
 	
 	\tabularx{\textwidth}{l X}
-	
 }
 {
 	\endtabularx
@@ -448,8 +443,6 @@
 
 \newenvironment{routeResponse}[1]
 {
-	%\vspace{-0.94em}
-	
 	\newcommand{\noRouteResponse}[1]
 	{
 		\begin{tabularx}{\textwidth}{X}
@@ -459,9 +452,7 @@
 	}
 	
 	\arrayrulecolor{\methodColor}
-	
 	\begin{tabularx}{\textwidth}{X l}
-		\rowcolor{\methodLightColor} \\
 		\rowcolor{\methodLightColor!20} 
 		\textbf{Response} & #1 \\ \hline
 	\end{tabularx}
