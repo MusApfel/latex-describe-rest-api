@@ -1,0 +1,8 @@
+
+PowerShell / CMD:
+
+latex .\restapi.ins
+-> .sty
+
+latex .\restapi.dtx
+-> .dvi

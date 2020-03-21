@@ -1,17 +1,17 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2008 by Dennis Klein <dennis94.kl@gmail.com>
-% -----------------------------------------------------------
-%
-% This file may be distributed and/or modified under the conditions of
-% the LaTeX Project Public License, either version 1.3c of this license
-% or (at your option) any later version. The latest version of this
-% license is in:
-%
-% http://www.latex-project.org/lppl.txt
-%
-% and version 1.3c or later is part of all distributions of LaTeX
+% Copyright (C) 2020 by Dennis Klein dennis94.kl@gmail.com
+% ---------------------------------------------------------------------------
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
 % version 2008/05/04 or later.
+%
+% This work consists of the files restapi.dtx and restapi.ins
+% and the derived filebase restapi.sty.
 %
 % \fi
 %
@@ -19,9 +19,950 @@
 %<*driver>
 \ProvidesFile{restapi.dtx}
 %</driver>
-%<package>\NeedsTeXFormat{LaTeX2e}[2003/12/01]
+%<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{restapi}
 %<*package>
-	[2020/02/17 v1.0 REST API package]
+    [2020/03/21 v1.1 rest api package]
 %</package>
 %
+%<*driver>
+\documentclass{ltxdoc}
+\EnableCrossrefs
+\usepackage{listings}
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \setlength{\parindent}{0pt}
+  \DocInput{restapi.dtx}
+  \PrintChanges
+  \PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{424}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v1.1}{2020/03/21}{Add documentation and usage}
+% \changes{v1.0}{2020/02/18}{Converted to DTX file}
+% \changes{v0.3}{2020/02/17}{Add commands for color customization}
+% \changes{v0.2}{2020/02/17}{Add command to enable/disable breaks in route environments}
+% \changes{v0.1}{2020/02/15}{Start project}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% \providecommand*{\url}{\texttt}
+% \GetFileInfo{restapi.dtx}
+% \title{The \textsf{restapi} package}
+% \author{Dennis Klein \\ \url{dennis94.kl@gmail.com}}
+% \date{\fileversion~from \filedate}
+%
+% \maketitle
+%
+% \section{Introduction}
+% A package to discribe a REST API for documentation.
+%
+%
+% \section{Usage}
+% \paragraph{GET Request with parameter} \
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}[frame=single,breaklines=true]
+ \begin{apiRoute}{get}{/api/storage/\{id\}}{get specific storage with id}
+	\begin{routeParameter}
+		\routeParamItem{id}{id of storage}
+	\end{routeParameter}
+	\begin{routeResponse}{application/json}
+		\begin{routeResponseItem}{200}{ok}
+			\begin{routeResponseItemBody}
+{     
+	"id": 867654678,
+	"name" : "Apfelmus",
+	"count" : 25
+}
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+		\begin{routeResponseItem}{404}{error: storage not found}
+			\begin{routeResponseItemBody}
+{
+	"message": "storage with id '11' not found!"
+}
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+	\end{routeResponse}
+\end{apiRoute}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+
+% \paragraph{GET Request without parameter} \
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}[frame=single,breaklines=true]
+\begin{apiRoute}{get}{/api/storage/}{get a list of all storage's}
+	\begin{routeParameter}
+		\noRouteParamter{no parameter}
+	\end{routeParameter}
+	\begin{routeResponse}{application/json}
+		\begin{routeResponseItem}{200}{ok}
+			\begin{routeResponseItemBody}
+[
+	{     
+		"id": 867654678,
+		"name" : "Apfelmus",
+		"count" : 25
+	},
+	{     
+		"id": 342523,
+		"name" : "Birnenmus",
+		"count" : 1
+	},
+	...
+]
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+	\end{routeResponse}
+\end{apiRoute}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+
+% \paragraph{GET Request without parameter and response} \
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}[frame=single,breaklines=true]
+\begin{apiRoute}{get}{/api/storage/}{}
+	\begin{routeParameter}
+		\noRouteParamter{no parameter}
+	\end{routeParameter}
+	\begin{routeResponse}{application/json}
+		\noRouteResponse{no response}
+	\end{routeResponse}
+\end{apiRoute}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+
+% \paragraph{POST Request} \
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}[frame=single,breaklines=true]
+\begin{apiRoute}{post}{/api/storage/}{create a new storage}
+	\begin{routeParameter}
+		\noRouteParamter{no parameter}
+	\end{routeParameter}
+	\begin{routeRequest}{application/json}
+		\begin{routeRequestBody}
+{
+	"name" : "Apfelmus",
+	"count" : 25
+}
+		\end{routeRequestBody}
+	\end{routeRequest}
+	\begin{routeResponse}{application/json}
+		\begin{routeResponseItem}{200}{ok}
+			\begin{routeResponseItemBody}
+{     
+	"id": 867654678,
+	"name" : "Apfelmus",
+	"count" : 25
+}
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+	\end{routeResponse}
+\end{apiRoute}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+
+% \paragraph{PUT Request} \
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}[frame=single,breaklines=true]
+\begin{apiRoute}{put}{/api/storage/\{id\}}{change a existing storage with id}
+	\begin{routeParameter}
+		\routeParamItem{id}{id of storage}
+	\end{routeParameter}
+	\begin{routeRequest}{application/json}
+		\begin{routeRequestBody}
+{
+	"id": 867654678,
+	"name" : "Apfelmus",
+	"count" : 255
+}
+		\end{routeRequestBody}
+	\end{routeRequest}
+	\begin{routeResponse}{application/json}
+		\begin{routeResponseItem}{200}{ok}
+			\begin{routeResponseItemBody}
+{
+	"id": 867654678,
+	"name" : "Apfelmus",
+	"count" : 255
+}
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+		\begin{routeResponseItem}{404}{error: storage not found}
+			\begin{routeResponseItemBody}
+{
+	"message": "storage with id '11' not found!"
+}
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+	\end{routeResponse}
+\end{apiRoute}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+
+% \paragraph{DELETE Request} \
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}[frame=single,breaklines=true]
+\begin{apiRoute}{delete}{/api/storage/\{id\}}{remove a storage with id}
+	\begin{routeParameter}
+		\routeParamItem{id}{id of storage}
+	\end{routeParameter}
+	\begin{routeResponse}{application/json}
+		\begin{routeResponseItem}{200}{ok}
+			
+		\end{routeResponseItem}
+		\begin{routeResponseItem}{404}{error: storage not found}
+			\begin{routeResponseItemBody}
+{
+	"message": "storage with id '11' not found!"
+}
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+	\end{routeResponse}
+\end{apiRoute}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+
+%
+%
+%
+% \subsection{Usercallable macros and environments}
+%
+% \DescribeMacro{\getGetColor}
+%	Return the main color for routes with get method.
+%
+% \DescribeMacro{\getGetBorderColor}
+%	Return the border color for routes with get method.
+%
+% \DescribeMacro{\getGetLightColor}
+%	Return the background color for routes with get method.
+%
+% \DescribeMacro{\getPostColor}
+%	Return the main color for routes with post method.
+%
+% \DescribeMacro{\getPostBorderColor}
+%	Return the border color for routes with post  method.
+%
+% \DescribeMacro{\getPostLightColor}
+%	Return the background color for routes with post method.
+%
+% \DescribeMacro{\getPutColor}
+%	Return the main color for routes with put method.
+%
+% \DescribeMacro{\getPutBorderColor}
+%	Return the border color for routes with put  method.
+%
+% \DescribeMacro{\getPutLightColor}
+%	Return the background color for routes with put method.
+%
+% \DescribeMacro{\getDeleteColor}
+%	Return the main color for routes with delete method.
+%
+% \DescribeMacro{\getDeleteBorderColor}
+%	Return the border color for routes with delete  method.
+%
+% \DescribeMacro{\getDeleteLightColor}
+%	Return the background color for routes with delete method.
+%
+% \DescribeMacro{\noBreakRoute}
+%	Set \textbackslash routeBreakValue true.
+%
+% \DescribeMacro{\breakRoute}
+%	Set \textbackslash routeBreakValue false.
+%
+% \DescribeEnv{apiRoute}
+%	Describe an endpoint with path, method and describtion.
+%	Contains other environments with further information. 
+%
+% \DescribeEnv{routeRequest}
+%	Describe the content type of the request.
+%	Contains the request body.
+%
+% \DescribeEnv{routeParameter}
+%	Describe the path parameter.
+%	Contains a list of \textbackslash routeParamItem commands.
+%	If no paramters excists you can use the command \textbackslash noRouteParamter.
+%
+% \DescribeMacro{\routeParamItem}
+%	Describe a parameter with name and describtion.
+%
+% \DescribeMacro{\noRouteParamter}
+%	Show a text e.g. 'no parameter'.
+%
+% \DescribeEnv{routeResponse}
+%	Describe the content type of the response.
+%	Contains a list of routeResponseItem environments or the command \textbackslash noRouteResponse.
+%
+% \DescribeMacro{\noRouteResponse}
+%	Show a text e.g. 'no response'.
+%
+% \DescribeEnv{routeResponseItem}
+%	Describe the the http status code with describtion.
+%	Contains the response body.
+%
+%
+% \subsection{Helper macros}
+%
+% \DescribeMacro{\routeBreakValue}
+%	Return true or false to enable/disable noBreak of a route.
+%
+% \DescribeMacro{\methodColor}
+%	Return the main color of the current route.
+%
+% \DescribeMacro{\methodLightColor}
+%	Return the background color of the current route.
+%
+% \DescribeMacro{\methodBorderColor}
+%	Return the border color of the current route.
+%
+% \DescribeMacro{\methodJson}
+%	Set the with \\lstset color scheme for the listings of the current route.
+%
+
+%
+% \StopEventually{}
+%
+% \section{Implementation}
+%
+% \iffalse
+%<*package>
+% \fi
+%
+% this is my first package
+% 
+% (c) Dennis Klein
+%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+% 
+%
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{restapi}[2020/02/18 REST API package]
+\RequirePackage[T1]{fontenc}
+\RequirePackage{tabularx,colortbl}
+\RequirePackage{transparent}
+\RequirePackage{xcolor}
+\RequirePackage{color}
+\RequirePackage{xifthen, xstring}
+\RequirePackage{tikz}
+\RequirePackage[framemethod=tikz]{mdframed}
+\RequirePackage{array}
+\RequirePackage{verbatim} 
+\RequirePackage{listings}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\definecolor{getBlue}{HTML}{1391FF}
+\definecolor{getBlueBorder}{HTML}{61affe}
+\definecolor{getLightBlue}{HTML}{ECF6FF}
+%    \end{macrocode}
+%
+% \begin{macro}{\getGetColor}
+%    \begin{macrocode}
+\newcommand{\getGetColor}{getBlue}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getGetBorderColor}
+%    \begin{macrocode}
+\newcommand{\getGetBorderColor}{getBlueBorder}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getGetLightColor}
+%    \begin{macrocode}
+\newcommand{\getGetLightColor}{getLightBlue}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\definecolor{postGreen}{HTML}{009D77}
+\definecolor{postGreenBorder}{HTML}{49CC97}
+\definecolor{postLightGreen}{HTML}{EBF7F4}
+%    \end{macrocode}
+%
+% \begin{macro}{\getPostColor}
+%    \begin{macrocode}
+\newcommand{\getPostColor}{postGreen}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getPostBorderColor}
+%    \begin{macrocode}
+\newcommand{\getPostBorderColor}{postGreenBorder}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getPostLightColor}
+%    \begin{macrocode}
+\newcommand{\getPostLightColor}{postLightGreen}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\definecolor{putOrange}{HTML}{E97500}
+\definecolor{putOrangeBorder}{HTML}{fca130}
+\definecolor{putLightOrange}{HTML}{FEF4EB}
+%    \end{macrocode}
+%
+% \begin{macro}{\getPutColor}
+%    \begin{macrocode}
+\newcommand{\getPutColor}{putOrange}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getPutBorderColor}
+%    \begin{macrocode}
+\newcommand{\getPutBorderColor}{putOrangeBorder}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getPutLightColor}
+%    \begin{macrocode}
+\newcommand{\getPutLightColor}{putLightOrange}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\definecolor{deleteRed}{HTML}{CF3030}
+\definecolor{deleteRedBorder}{HTML}{f93e3e}
+\definecolor{deleteLightRed}{HTML}{FBEEEE}
+%    \end{macrocode}
+%
+% \begin{macro}{\getDeleteColor}
+%    \begin{macrocode}
+\newcommand{\getDeleteColor}{deleteRed}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getDeleteBorderColor}
+%    \begin{macrocode}
+\newcommand{\getDeleteBorderColor}{deleteRedBorder}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\getDeleteLightColor}
+%    \begin{macrocode}
+\newcommand{\getDeleteLightColor}{deleteLightRed}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\colorlet{punct}{black}
+\definecolor{background}{HTML}{EEEEEE}
+\colorlet{delimGet}{\getGetColor}
+\colorlet{numbGet}{delimGet}
+\colorlet{delimPost}{\getPostColor}
+\colorlet{numbPost}{delimPost}
+\colorlet{delimPut}{\getPutColor}
+\colorlet{numbPut}{delimPut}
+\colorlet{delimDelete}{\getDeleteColor}
+\colorlet{numbDelete}{delimDelete}
+\lstdefinelanguage{jsonGet}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{black},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=true,
+	literate=
+	*{0}{{{\color{numbGet}0}}}{1}
+	{1}{{{\color{numbGet}1}}}{1}
+	{2}{{{\color{numbGet}2}}}{1}
+	{3}{{{\color{numbGet}3}}}{1}
+	{4}{{{\color{numbGet}4}}}{1}
+	{5}{{{\color{numbGet}5}}}{1}
+	{6}{{{\color{numbGet}6}}}{1}
+	{7}{{{\color{numbGet}7}}}{1}
+	{8}{{{\color{numbGet}8}}}{1}
+	{9}{{{\color{numbGet}9}}}{1}
+	{:}{{{\color{punct}{:}}}}{1}
+	{,}{{{\color{punct}{,}}}}{1}
+	{\{}{{{\color{delimGet}{\{}}}}{1}
+	{\}}{{{\color{delimGet}{\}}}}}{1}
+	{[}{{{\color{delimGet}{[}}}}{1}
+	{]}{{{\color{delimGet}{]}}}}{1},
+}
+\lstdefinelanguage{jsonPost}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{black},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=true,
+	literate=
+	*{0}{{{\color{numbPost}0}}}{1}
+	{1}{{{\color{numbPost}1}}}{1}
+	{2}{{{\color{numbPost}2}}}{1}
+	{3}{{{\color{numbPost}3}}}{1}
+	{4}{{{\color{numbPost}4}}}{1}
+	{5}{{{\color{numbPost}5}}}{1}
+	{6}{{{\color{numbPost}6}}}{1}
+	{7}{{{\color{numbPost}7}}}{1}
+	{8}{{{\color{numbPost}8}}}{1}
+	{9}{{{\color{numbPost}9}}}{1}
+	{:}{{{\color{punct}{:}}}}{1}
+	{,}{{{\color{punct}{,}}}}{1}
+	{\{}{{{\color{delimPost}{\{}}}}{1}
+	{\}}{{{\color{delimPost}{\}}}}}{1}
+	{[}{{{\color{delimPost}{[}}}}{1}
+	{]}{{{\color{delimPost}{]}}}}{1},
+}
+\lstdefinelanguage{jsonPut}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{black},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=true,
+	literate=
+	*{0}{{{\color{numbPut}0}}}{1}
+	{1}{{{\color{numbPut}1}}}{1}
+	{2}{{{\color{numbPut}2}}}{1}
+	{3}{{{\color{numbPut}3}}}{1}
+	{4}{{{\color{numbPut}4}}}{1}
+	{5}{{{\color{numbPut}5}}}{1}
+	{6}{{{\color{numbPut}6}}}{1}
+	{7}{{{\color{numbPut}7}}}{1}
+	{8}{{{\color{numbPut}8}}}{1}
+	{9}{{{\color{numbPut}9}}}{1}
+	{:}{{{\color{punct}{:}}}}{1}
+	{,}{{{\color{punct}{,}}}}{1}
+	{\{}{{{\color{delimPut}{\{}}}}{1}
+	{\}}{{{\color{delimPut}{\}}}}}{1}
+	{[}{{{\color{delimPut}{[}}}}{1}
+	{]}{{{\color{delimPut}{]}}}}{1},
+}
+\lstdefinelanguage{jsonDelete}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{black},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=true,
+	literate=
+	*{0}{{{\color{numbDelete}0}}}{1}
+	{1}{{{\color{numbDelete}1}}}{1}
+	{2}{{{\color{numbDelete}2}}}{1}
+	{3}{{{\color{numbDelete}3}}}{1}
+	{4}{{{\color{numbDelete}4}}}{1}
+	{5}{{{\color{numbDelete}5}}}{1}
+	{6}{{{\color{numbDelete}6}}}{1}
+	{7}{{{\color{numbDelete}7}}}{1}
+	{8}{{{\color{numbDelete}8}}}{1}
+	{9}{{{\color{numbDelete}9}}}{1}
+	{:}{{{\color{punct}{:}}}}{1}
+	{,}{{{\color{punct}{,}}}}{1}
+	{\{}{{{\color{delimDelete}{\{}}}}{1}
+	{\}}{{{\color{delimDelete}{\}}}}}{1}
+	{[}{{{\color{delimDelete}{[}}}}{1}
+	{]}{{{\color{delimDelete}{]}}}}{1},
+}
+\mdfdefinestyle{mystyle}{
+	linecolor=\methodBorderColor,
+	backgroundcolor=\methodLightColor,
+	skipabove=0pt,
+	linewidth=1.5pt,
+	skipbelow=0pt,
+	innertopmargin=0pt,
+	innerbottommargin=-3pt,
+	innerrightmargin=0pt,
+	innerleftmargin=0pt,
+	leftmargin=0pt,
+	rightmargin=0pt,
+	nobreak=true
+}
+%    \end{macrocode}
+%
+% \begin{macro}{\routeBreakValue}
+%    \begin{macrocode}
+\newcommand{\routeBreakValue}{true}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\noBreakRoute}
+%    \begin{macrocode}
+\newcommand{\noBreakRoute}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+{
+	\renewcommand{\routeBreakValue}{true}
+}
+%    \end{macrocode}
+%
+% \begin{macro}{\breakRoute}
+%    \begin{macrocode}
+\newcommand{\breakRoute}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+{
+	\renewcommand{\routeBreakValue}{false}
+}
+%    \end{macrocode}
+%
+% \begin{macro}{\methodColor}
+%    \begin{macrocode}
+\newcommand{\methodColor}{getBlue}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\methodLightColor}
+%    \begin{macrocode}
+\newcommand{\methodLightColor}{getLightBlue}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\methodBorderColor}
+%    \begin{macrocode}
+\newcommand{\methodBorderColor}{getBlueBorder}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\methodJson}
+%    \begin{macrocode}
+\newcommand{\methodJson}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+{
+	\lstset{language=jsonGet,rulecolor=\color{\methodColor}}
+}
+\begin{comment}
+	\newcommand{\apiCorner}{notround}
+	
+	\newcommand{\apiCornerRound}
+	{
+	\renewcommand{\apiCorner}{round}
+	}
+	
+	\newcommand{\apiCornerNotRound}
+	{
+	\renewcommand{\apiCorner}{notround}
+	}
+\end{comment}
+%    \end{macrocode}
+%
+% \begin{environment}{apiRoute}
+%    \begin{macrocode}
+\newenvironment{apiRoute}[3]
+{
+	\newcommand{\method}{#1}
+	\newcommand{\urlPath}{#2}
+	\newcommand{\routeDescription}{#3}
+	
+	\ifthenelse{\equal{\method}{get}}
+	{
+		\renewcommand{\methodColor}{\getGetColor}
+		\renewcommand{\methodLightColor}{\getGetLightColor}
+		\renewcommand{\methodBorderColor}{\getGetBorderColor}
+		\renewcommand{\methodJson}
+		{
+			\colorlet{delimGet}{\methodColor}
+			\colorlet{numbGet}{delimGet}
+			\lstset{language=jsonGet,rulecolor=\color{\methodColor}}
+		}
+	}
+	{}
+	
+	\ifthenelse{\equal{\method}{post}}
+	{
+		\renewcommand{\methodColor}{\getPostColor}
+		\renewcommand{\methodLightColor}{\getPostLightColor}
+		\renewcommand{\methodBorderColor}{\getPostBorderColor}
+		\renewcommand{\methodJson}
+		{
+			\colorlet{delimPost}{\methodColor}
+			\colorlet{numbPost}{delimPost}
+			\lstset{language=jsonPost,rulecolor=\color{\methodColor}}
+		}
+	}
+	{}
+	
+	\ifthenelse{\equal{\method}{put}}
+	{
+		\renewcommand{\methodColor}{\getPutColor}
+		\renewcommand{\methodLightColor}{\getPutLightColor}
+		\renewcommand{\methodBorderColor}{\getPutBorderColor}
+		\renewcommand{\methodJson}
+		{
+			\colorlet{delimPut}{\methodColor}
+			\colorlet{numbPut}{delimPut}
+			\lstset{language=jsonPut,rulecolor=\color{\methodColor}}
+		}
+	}
+	{} 
+	\ifthenelse{\equal{\method}{delete}}
+	{
+		\renewcommand{\methodColor}{\getDeleteColor}
+		\renewcommand{\methodLightColor}{\getDeleteLightColor}
+		\renewcommand{\methodBorderColor}{\getDeleteBorderColor}
+		\renewcommand{\methodJson}
+		{
+			\colorlet{delimDelete}{\methodColor}
+			\colorlet{numbDelete}{delimDelete}
+			\lstset{language=jsonDelete,rulecolor=\color{\methodColor}}
+		}
+	}
+	{}
+	
+	\ifthenelse{\equal{\routeDescription}{}}
+	{
+		\newcommand{\printDescription}{}
+	}
+	{
+		\newcommand{\printDescription}
+		{
+			\rowcolor{\methodLightColor}
+			& \textit{\routeDescription} \\
+		}
+		
+	}
+	
+	
+	\begingroup
+		\setlength{\parindent}{0em}
+		\begin{mdframed}[style=mystyle,nobreak=\routeBreakValue]
+			\begin{tabularx}{\textwidth}{p{1.6cm} X}
+				\rowcolor{\methodLightColor}
+				
+				\cellcolor{\methodColor}
+				\centering 
+				\textcolor{white}{\textbf{\textsc{\method}}} 
+				& \textbf{\urlPath} \\
+				
+				\printDescription
+				
+				\rowcolor{\methodLightColor} & \\
+			\end{tabularx}
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%    \begin{macrocode}
+{
+		\end{mdframed}
+	\endgroup
+}
+%    \end{macrocode}
+%
+% \begin{environment}{routeRequest}
+%    \begin{macrocode}
+\newenvironment{routeRequest}[1]
+{
+	\arrayrulecolor{\methodColor}
+	
+	\begin{tabularx}{\textwidth}{X l}
+		\rowcolor{\methodLightColor!20} 
+		\textbf{Body} & #1 \\ \hline
+	\end{tabularx}
+	\vspace{1ex}
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%    \begin{macrocode}
+{
+	\bigskip
+}
+\lstnewenvironment{routeRequestBody}
+{
+	\methodJson
+}
+{}
+%    \end{macrocode}
+%
+% \begin{environment}{routeParameter}
+%    \begin{macrocode}
+\newenvironment{routeParameter}
+{
+	\newcommand{\routeParamItem}[2]
+	{
+		\rowcolor{\methodLightColor} ##1 & ##2 \\
+	}
+	\newcommand{\noRouteParamter}[1]
+	{
+		\small{\textit{##1}}
+	}
+	%\vspace{-0.61em}
+	
+	\arrayrulecolor{\methodColor}
+	
+	\begin{tabularx}{\textwidth}{X}
+		\rowcolor{\methodLightColor!20}
+		\textbf{Parameter} \\ \hline
+	\end{tabularx}
+	
+	\tabularx{\textwidth}{l X}
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%    \begin{macrocode}
+{
+	\endtabularx
+}
+%    \end{macrocode}
+%
+% \begin{environment}{routeResponse}
+%    \begin{macrocode}
+\newenvironment{routeResponse}[1]
+{
+	\newcommand{\noRouteResponse}[1]
+	{
+		\begin{tabularx}{\textwidth}{X}
+			\rowcolor{\methodLightColor}
+			\small{\textit{##1}} \\
+		\end{tabularx}
+	}
+	
+	\arrayrulecolor{\methodColor}
+	\begin{tabularx}{\textwidth}{X l}
+		\rowcolor{\methodLightColor!20} 
+		\textbf{Response} & #1 \\ \hline
+	\end{tabularx}
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%    \begin{macrocode}
+{}
+%    \end{macrocode}
+%
+% \begin{environment}{routeResponseItem}
+%    \begin{macrocode}
+\newenvironment{routeResponseItem}[2]
+{
+	\begin{tabularx}{\textwidth}{l X}
+		\textbf{#1} & #2 \\
+	\end{tabularx}
+}
+%    \end{macrocode}
+% \end{environment}
+%
+%    \begin{macrocode}
+{
+	\medskip
+}
+\lstnewenvironment{routeResponseItemBody}
+{
+	\vspace{-1.4em}
+	\methodJson
+}
+{}
+\endinput
+%    \end{macrocode}
+%%
+%% End of file `restapi.sty'.
+%
+
+%
+% \iffalse
+%</package>
+% \fi
+%
+% \Finale
+\endinput
