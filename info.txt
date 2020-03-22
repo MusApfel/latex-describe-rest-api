@@ -6,3 +6,6 @@ latex .\restapi.ins
 
 latex .\restapi.dtx
 -> .dvi
+
+pdflatex .\restapi.dtx
+-> .pdf
