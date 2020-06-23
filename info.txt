@@ -1,11 +1,11 @@
 
 PowerShell / CMD:
 
-latex .\restapi.ins
+latex .\rest-api.ins
 -> .sty
 
-latex .\restapi.dtx
+latex .\rest-api.dtx
 -> .dvi
 
-pdflatex .\restapi.dtx
+pdflatex .\rest-api.dtx
 -> .pdf
