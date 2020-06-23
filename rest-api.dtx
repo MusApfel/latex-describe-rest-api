@@ -751,6 +751,7 @@
 %    \begin{macrocode}
 \newenvironment{apiRoute}[3]
 {
+	\global\let\saved@CT@arc@\CT@arc@
 	\newcommand{\method}{#1}
 	\newcommand{\urlPath}{#2}
 	\newcommand{\routeDescription}{#3}
@@ -847,6 +848,7 @@
 {
 		\end{mdframed}
 	\endgroup
+	\global\let\CT@arc@\saved@CT@arc@
 }
 %    \end{macrocode}
 %
