@@ -1,5 +1,16 @@
 
-PowerShell / CMD:
+upate version / change information information in
+
+- rest-api.dtx
+    package info (line 25) 
+    changes (line 62)
+
+- rest-api.ins
+    package info, output message (line 19)
+
+
+compile 
+===========================
 
 latex .\rest-api.ins
 -> .sty
