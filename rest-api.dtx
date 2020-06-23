@@ -121,7 +121,7 @@
 \begin{lstlisting}[frame=single,breaklines=true]
 \begin{apiRoute}{get}{/api/storage/}{get a list of all storage's}
 	\begin{routeParameter}
-		\noRouteParamter{no parameter}
+		\noRouteParameter{no parameter}
 	\end{routeParameter}
 	\begin{routeResponse}{application/json}
 		\begin{routeResponseItem}{200}{ok}
@@ -155,7 +155,7 @@
 \begin{lstlisting}[frame=single,breaklines=true]
 \begin{apiRoute}{get}{/api/storage/}{}
 	\begin{routeParameter}
-		\noRouteParamter{no parameter}
+		\noRouteParameter{no parameter}
 	\end{routeParameter}
 	\begin{routeResponse}{application/json}
 		\noRouteResponse{no response}
@@ -173,7 +173,7 @@
 \begin{lstlisting}[frame=single,breaklines=true]
 \begin{apiRoute}{post}{/api/storage/}{create a new storage}
 	\begin{routeParameter}
-		\noRouteParamter{no parameter}
+		\noRouteParameter{no parameter}
 	\end{routeParameter}
 	\begin{routeRequest}{application/json}
 		\begin{routeRequestBody}
@@ -327,12 +327,12 @@
 % \DescribeEnv{routeParameter}
 %	Describe the path parameter.
 %	Contains a list of \textbackslash routeParamItem commands.
-%	If no paramters excists you can use the command \textbackslash noRouteParamter.
+%	If no paramters excists you can use the command \textbackslash noRouteParameter.
 %
 % \DescribeMacro{\routeParamItem}
 %	Describe a parameter with name and describtion.
 %
-% \DescribeMacro{\noRouteParamter}
+% \DescribeMacro{\noRouteParameter}
 %	Show a text e.g. 'no parameter'.
 %
 % \DescribeEnv{routeResponse}
@@ -884,7 +884,7 @@
 	{
 		\rowcolor{\methodLightColor} ##1 & ##2 \\
 	}
-	\newcommand{\noRouteParamter}[1]
+	\newcommand{\noRouteParameter}[1]
 	{
 		\small{\textit{##1}}
 	}
