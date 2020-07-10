@@ -1,5 +1,5 @@
 
-upate version / change information information in
+update version / change information in
 
 - rest-api.dtx
     package info (line 25) 
