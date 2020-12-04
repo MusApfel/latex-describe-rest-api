@@ -22,7 +22,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{rest-api}
 %<*package>
-    [2020/06/23 v1.3 rest-api package]
+    [2020/12/04 v1.4 rest-api package]
 %</package>
 %
 %<*driver>
@@ -40,7 +40,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{424}
+% \CheckSum{514}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -59,6 +59,7 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
+% \changes{v1.4}{2020/12/04}{Add xml syntax highlighting support for request and response body}
 % \changes{v1.3}{2020/06/23}{Fix typo and table coloring after apiRoute block}
 % \changes{v1.2}{2020/03/22}{Corrections for CTAN, rename to rest-api}
 % \changes{v1.1}{2020/03/21}{Add documentation and usage}
@@ -270,6 +271,34 @@
 %</example>
 % \fi
 
+% \paragraph{DELETE Request xml} \
+% \iffalse
+%<*example>
+% \fi
+\begin{lstlisting}[frame=single,breaklines=true]
+	\begin{apiRoute}{delete}{/api/storage/\{id\}}{remove a storage with id}
+		\begin{routeParameter}
+			\routeParamItem{id}{id of storage}
+		\end{routeParameter}
+		\begin{routeResponse}{application/xml}
+			\begin{routeResponseItem}{200}{ok}
+				
+			\end{routeResponseItem}
+			\begin{routeResponseItem}{404}{error: storage not found}
+				\begin{routeResponseItemBody}
+	<message>
+		storage with id '11' not found!
+	</message>
+				\end{routeResponseItemBody}
+			\end{routeResponseItem}
+		\end{routeResponse}
+	\end{apiRoute}
+\end{lstlisting}
+% \iffalse
+%</example>
+% \fi
+
+
 %
 %
 %
@@ -363,7 +392,10 @@
 %	Return the border color of the current route.
 %
 % \DescribeMacro{\methodJson}
-%	Set the with \\lstset color scheme for the listings of the current route.
+%	Set the color scheme and language with \\lstset for the listings of the current route to json.
+%
+% \DescribeMacro{\methodXml}
+%	Set the color scheme and language with \\lstset for the listings of the current route to xml.
 %
 
 %
@@ -504,6 +536,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{color definitions for json}
 %    \begin{macrocode}
 \colorlet{punct}{black}
 \definecolor{background}{HTML}{EEEEEE}
@@ -515,6 +548,11 @@
 \colorlet{numbPut}{delimPut}
 \colorlet{delimDelete}{\getDeleteColor}
 \colorlet{numbDelete}{delimDelete}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{json language defintions}
+%    \begin{macrocode}
 \lstdefinelanguage{jsonGet}{
 	basicstyle=\small\ttfamily\color{black},
 	numberstyle=\small\color{black},
@@ -655,6 +693,105 @@
 	{[}{{{\color{delimDelete}{[}}}}{1}
 	{]}{{{\color{delimDelete}{]}}}}{1},
 }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{xml language defintions}
+%    \begin{macrocode}
+\lstdefinelanguage{xmlGet}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{numbGet},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=false,
+	morestring=[b]",
+	morestring=[s]{>}{<},
+	morecomment=[s]{<?}{?>},
+	identifierstyle=\color{numbGet},
+}
+\lstdefinelanguage{xmlPost}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{numbPost},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=false,
+	morestring=[b]",
+	morestring=[s]{>}{<},
+	morecomment=[s]{<?}{?>},
+	identifierstyle=\color{numbPost},
+}
+\lstdefinelanguage{xmlPut}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{numbPut},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=false,
+	morestring=[b]",
+	morestring=[s]{>}{<},
+	morecomment=[s]{<?}{?>},
+	stringstyle=\color{black},
+	identifierstyle=\color{numbPut},
+}
+\lstdefinelanguage{xmlDelete}{
+	basicstyle=\small\ttfamily\color{black},
+	numberstyle=\small\color{numbDelete},
+	keywordstyle=\color{black},
+	commentstyle=\color{black},
+	stringstyle=\color{black},
+	frame=L,
+	framesep=8pt,
+	framerule=2pt,
+	xleftmargin=50pt,
+	xrightmargin=0pt,
+	rulesep=0pt,
+	backgroundcolor=\color{white},
+	numbersep=8pt,
+	tabsize=4,
+	showstringspaces=false,
+	breaklines=false,
+	morestring=[b]",
+	morestring=[s]{>}{<},
+	morecomment=[s]{<?}{?>},
+	identifierstyle=\color{numbDelete},
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{apiRoute frame style defintion}
+%    \begin{macrocode}
 \mdfdefinestyle{mystyle}{
 	linecolor=\methodBorderColor,
 	backgroundcolor=\methodLightColor,
@@ -670,6 +807,15 @@
 	nobreak=true
 }
 %    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\bodyFormat}
+%    \begin{macrocode}
+\newcommand{\bodyFormat}{json}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{macro}{\routeBreakValue}
 %    \begin{macrocode}
@@ -733,20 +879,20 @@
 {
 	\lstset{language=jsonGet,rulecolor=\color{\methodColor}}
 }
-\begin{comment}
-	\newcommand{\apiCorner}{notround}
-	
-	\newcommand{\apiCornerRound}
-	{
-	\renewcommand{\apiCorner}{round}
-	}
-	
-	\newcommand{\apiCornerNotRound}
-	{
-	\renewcommand{\apiCorner}{notround}
-	}
-\end{comment}
 %    \end{macrocode}
+%
+% \begin{macro}{\methodXml}
+%    \begin{macrocode}
+\newcommand{\methodXml}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+{
+	\lstset{language=xmlGet,rulecolor=\color{\methodColor}}
+}
+%    \end{macrocode}
+%
 %
 % \begin{environment}{apiRoute}
 %    \begin{macrocode}
@@ -768,6 +914,12 @@
 			\colorlet{numbGet}{delimGet}
 			\lstset{language=jsonGet,rulecolor=\color{\methodColor}}
 		}
+		\renewcommand{\methodXml}
+		{
+			\colorlet{delimGet}{\methodColor}
+			\colorlet{numbGet}{delimGet}
+			\lstset{language=xmlGet,rulecolor=\color{\methodColor}}
+		}
 	}
 	{}
 	
@@ -781,6 +933,12 @@
 			\colorlet{delimPost}{\methodColor}
 			\colorlet{numbPost}{delimPost}
 			\lstset{language=jsonPost,rulecolor=\color{\methodColor}}
+		}
+		\renewcommand{\methodXml}
+		{
+			\colorlet{delimPost}{\methodColor}
+			\colorlet{numbPost}{delimPost}
+			\lstset{language=xmlPost,rulecolor=\color{\methodColor}}
 		}
 	}
 	{}
@@ -796,6 +954,12 @@
 			\colorlet{numbPut}{delimPut}
 			\lstset{language=jsonPut,rulecolor=\color{\methodColor}}
 		}
+		\renewcommand{\methodXml}
+		{
+			\colorlet{delimPut}{\methodColor}
+			\colorlet{numbPut}{delimPut}
+			\lstset{language=xmlPut,rulecolor=\color{\methodColor}}
+		}
 	}
 	{} 
 	\ifthenelse{\equal{\method}{delete}}
@@ -808,6 +972,12 @@
 			\colorlet{delimDelete}{\methodColor}
 			\colorlet{numbDelete}{delimDelete}
 			\lstset{language=jsonDelete,rulecolor=\color{\methodColor}}
+		}
+		\renewcommand{\methodXml}
+		{
+			\colorlet{delimDelete}{\methodColor}
+			\colorlet{numbDelete}{delimDelete}
+			\lstset{language=xmlDelete,rulecolor=\color{\methodColor}}
 		}
 	}
 	{}
@@ -857,6 +1027,8 @@
 %    \begin{macrocode}
 \newenvironment{routeRequest}[1]
 {
+	\renewcommand{\bodyFormat}{#1}
+
 	\arrayrulecolor{\methodColor}
 	
 	\begin{tabularx}{\textwidth}{X l}
@@ -874,7 +1046,7 @@
 }
 \lstnewenvironment{routeRequestBody}
 {
-	\methodJson
+	\IfSubStr{\bodyFormat}{xml}{\methodXml}{\methodJson}
 }
 {}
 %    \end{macrocode}
@@ -915,6 +1087,8 @@
 %    \begin{macrocode}
 \newenvironment{routeResponse}[1]
 {
+	\renewcommand{\bodyFormat}{#1}
+
 	\newcommand{\noRouteResponse}[1]
 	{
 		\begin{tabularx}{\textwidth}{X}
@@ -954,7 +1128,7 @@
 \lstnewenvironment{routeResponseItemBody}
 {
 	\vspace{-1.4em}
-	\methodJson
+	\IfSubStr{\bodyFormat}{xml}{\methodXml}{\methodJson}
 }
 {}
 \endinput
