@@ -182,4 +182,24 @@ In this document a package for describing REST API is tested.
 	\end{routeResponse}
 \end{apiRoute}
 
+
+\begin{apiRoute}{delete}{/api/storage/\{id\}}{remove a storage with id}
+	\begin{routeParameter}
+		\routeParamItem{id}{id of storage}
+	\end{routeParameter}
+	\begin{routeResponse}{application/xml}
+		\begin{routeResponseItem}{200}{ok}
+			
+		\end{routeResponseItem}
+		\begin{routeResponseItem}{404}{error: storage not found}
+			\begin{routeResponseItemBody}
+<message>
+	storage with id '11' not found!
+</message>
+			\end{routeResponseItemBody}
+		\end{routeResponseItem}
+	\end{routeResponse}
+\end{apiRoute}
+
+
 \end{document}
